@@ -1,0 +1,13 @@
+    {{ range $name, $page := .Site.Pages }}
+        {{ if eq .Type "post" }}
+            <div class="postsummary">
+                <h2>
+                    <a href="{{ $page.Permalink }}">{{ $page.Title }}</a>
+                </h2>
+                <p>
+                {{ .Summary }}
+                <a href="{{ $page.Permalink }}">[more]</a>
+                </p>
+            </div>
+        {{ end }}
+    {{ end }}

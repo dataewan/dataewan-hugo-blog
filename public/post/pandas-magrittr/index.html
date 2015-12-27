@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> pandas magrittr style syntax &middot; dataewan</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+
+    <link href='https://fonts.googleapis.com/css?family=Crimson+Text:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="https://yandex.st/highlightjs/8.0/styles/github.min.css">
+    <script src="https://yandex.st/highlightjs/8.0/highlight.min.js"></script>
+
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    <link rel="stylesheet" href="/css/dataewan.css">
+    
+    
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-min.css">
+    
+</head>
+<body>
+<div id="layout" class="pure-g">
+
+
+
+<div class="sidebar pure-u-1 pure-u-md-1-4">
+    <h1>
+        <a href="/">dataewan</a>
+    </h1>
+
+    <nav class="nav">
+        <ul class="nav-list">
+            <li class="nav-item">
+                <a href="/about">About</a>
+            </li>
+            <li class="nav-item">
+                <a href="/post">Posts</a>
+            </li>
+            <li class="nav-item">
+                <a href="/books">Book recommendations</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+
+<div class="content pure-u-1 pure-u-sm-3-4 pure-u-lg-2-5">
+
+
+
+<p><a href="https://github.com/smbache/magrittr">magrittr</a> introduces some very pleasant syntax to R.
+It gives you the <code>%&gt;%</code> operator.
+Whatever is on the left hand side of this operator gets passed into the right hand side.
+This operator is known as a pipe - similar to <a href="http://www.december.com/unix/tutor/pipesfilters.html">pipes in unix</a>.</p>
+
+<p>Have a look at this bit of R code,
+written with the magrittr library.</p>
+
+<pre><code class="language-R">the_data &lt;-
+  read.csv('/path/to/data/file.csv') %&gt;%
+  subset(variable_a &gt; x) %&gt;%
+  transform(variable_c = variable_a/variable_b) %&gt;%
+  head(100)
+</code></pre>
+
+<p>It looks a lot like how you would describe these operations in English.
+First read the csv file,
+then take a subset of it where <code>variable_a</code> is greater than <code>x</code>,
+then create a new column called <code>variable_c</code> which is variable a divided by b,
+and then finally take the first 100 rows of the data frame.</p>
+
+<p>This gets really useful if you combine it with the <a href="https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html">dplyr</a> library.
+This gives you a whole load of different verbs you can apply to your data.
+You can easily filter, sort, aggregate, select specific columns and so on.
+When writing R, this makes your code easier to understand and makes you more productive.</p>
+
+<h2 id="method-chaining-in-pandas:d2b40886fd042ce815011ab74a9d0a94">Method chaining in pandas</h2>
+
+<p>I really missed this syntax when I was writing python and pandas.
+I&rsquo;ve recently found that there&rsquo;s something pretty similar available in pandas,
+which made me very happy.
+<em>This has been around since pandas v0.16.2, so I&rsquo;m a little late to the party.</em></p>
+
+<p><blockquote class="twitter-tweet tw-align-center" lang="en"><p lang="en" dir="ltr">The new DataFrame.pipe in pandas is so heartwarming. Bravo team! <a href="http://t.co/SHMSASitPs">http://t.co/SHMSASitPs</a> <a href="https://twitter.com/hashtag/pydata?src=hash">#pydata</a></p>&mdash; Wes McKinney (@wesmckinn) <a href="https://twitter.com/wesmckinn/status/610550651114754048">June 15, 2015</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+
+<p><a href="http://pandas.pydata.org/pandas-docs/stable/basics.html#tablewise-function-application">This section</a>
+of the official documentation describes how it works.
+This style of code is known as <em>method chaining</em>,
+and is encouraged by pandas.</p>
+
+<p>The example there is quite short, so you can easily miss how important an idea this is.
+I&rsquo;ve got an <a href="https://github.com/dataewan/country-borders-wikipedia/blob/master/Land%20borders%20from%20wikipedia.ipynb">ipython notebook</a> that uses this idea of method chaining extensively.
+My code is a lot neater,
+and makes me feel a lot happier.</p>
+
+<h2 id="put-your-long-lines-in-brackets:d2b40886fd042ce815011ab74a9d0a94">Put your long lines in brackets</h2>
+
+<p>When I started writing pandas,
+I would write a lot of lines like this one.</p>
+
+<pre><code class="language-python">islands = clean.loc[clean.land_border_length == 0][['country', &quot;number_neighbours&quot;]]
+</code></pre>
+
+<p>Conceptually this is doing something pretty simple.
+It is querying my <code>clean</code> dataframe,
+finding all the rows where the <code>land_border_length</code> column is zero,
+and then just selecting the <code>country</code> and <code>number_neighbours</code> fields of those rows that match.</p>
+
+<p>It isn&rsquo;t very easy to read this.
+It is hard to see where one section ends and the next one begins.
+Also, if you write something more complicated than this then you&rsquo;ll get very long lines in your code.</p>
+
+<p>You might be tempted to use temporary dataframes to break your code into smaller chunks.
+So maybe do something like this:</p>
+
+<pre><code class="language-python">zero_border_length = clean.loc[clean.border_length == 0]
+islands = zero_border_length[[&quot;country&quot;, &quot;number_neighbours&quot;]]
+</code></pre>
+
+<p>This is a bit easier to read,
+but you end up with a lot of temporary dataframes that you never use again.</p>
+
+<p>Instead of doing this,
+just wrap your code in brackets.
+The following section of code gives exactly the same results as the previous two sections.</p>
+
+<pre><code class="language-python">islands = (
+    clean
+    .loc[clean.land_border_length == 0]
+    [['country', &quot;number_neighbours&quot;]]
+)
+</code></pre>
+
+<p>I find this much easier to read
+and it doesn&rsquo;t create a lot of temporary data frames.
+This is my favourite way to write pandas.</p>
+
+<h2 id="use-different-functions:d2b40886fd042ce815011ab74a9d0a94">Use different functions</h2>
+
+<p>The other thing that made a difference to my pandas writing was starting to use more functions.
+All these functions take a dataframe,
+do something to the dataframe,
+and then return a copy of the dataframe with the changes applied.
+This makes them perfect for chaining together using the bracket method from above.</p>
+
+<h3 id="query:d2b40886fd042ce815011ab74a9d0a94">query</h3>
+
+<p><a href="http://pandas.pydata.org/pandas-docs/version/0.17.0/generated/pandas.DataFrame.query.html">query</a>
+performs filtering of the dataframe.
+You give it logical expressions,
+and it gives you back the rows that match that expression.</p>
+
+<p>So this filters my data so that I get the countries with a zero land border length,
+but that also have some neighbours.</p>
+
+<pre><code class="language-python">(
+    clean
+    .query(&quot;land_border_length == 0 &amp; number_neighbours &gt; 0&quot;)
+)
+</code></pre>
+
+<h3 id="assign:d2b40886fd042ce815011ab74a9d0a94">assign</h3>
+
+<p><a href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.assign.html">assign</a>
+lets you put new columns on the dataframe,
+or assign new values to the old ones.</p>
+
+<h3 id="rename:d2b40886fd042ce815011ab74a9d0a94">rename</h3>
+
+<p><a href="http://pandas.pydata.org/pandas-docs/version/0.17.1/generated/pandas.DataFrame.rename.html">rename</a>
+changes the names of the columns in the dataframe.</p>
+
+<h3 id="drop:d2b40886fd042ce815011ab74a9d0a94">drop</h3>
+
+<p><a href="http://pandas.pydata.org/pandas-docs/version/0.17.1/generated/pandas.DataFrame.drop.html">drop</a>
+lets you drop particular rows or columns of the dataframe.
+This is useful if you want to remove some messy intermediary columns that you don&rsquo;t need any more.</p>
+
+<h3 id="sort-values:d2b40886fd042ce815011ab74a9d0a94">sort_values</h3>
+
+<p><a href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.sort_values.html">sort_values</a></p>
+
+<h3 id="merge:d2b40886fd042ce815011ab74a9d0a94">merge</h3>
+
+<p><a href="http://pandas.pydata.org/pandas-docs/version/0.17.1/generated/pandas.DataFrame.merge.html">merge</a>
+is a lot like joining in SQL.
+It lets you combine together different datasets.</p>
+
+<p>The <a href="http://pandas.pydata.org/pandas-docs/stable/merging.html">full documentation</a> on merging is well worth a read.
+I&rsquo;ll probably write about that at some other point.</p>
+
+<h3 id="groupby:d2b40886fd042ce815011ab74a9d0a94">groupby</h3>
+
+<p>This section of the documentation describes what the <code>groupby</code> function does <a href="http://pandas.pydata.org/pandas-docs/stable/groupby.html#splitting-an-object-into-groups">groupby</a>,
+but it is worth looking at the <a href="http://pandas.pydata.org/pandas-docs/stable/groupby.html">whole article</a> as well.</p>
+
+<h3 id="agg:d2b40886fd042ce815011ab74a9d0a94">agg</h3>
+
+<p><a href="http://pandas.pydata.org/pandas-docs/stable/groupby.html#aggregation">agg</a> lets you aggregate your dataframe.
+This also works with</p>
+
+<hr />
+
+<p>Now that I&rsquo;ve got my head around these functions,
+I can do pretty much everything that I could do in <code>dplyr</code>.</p>
+
+<h2 id="use-the-pipe-function:d2b40886fd042ce815011ab74a9d0a94">Use the pipe function</h2>
+
+<p><a href="http://pandas.pydata.org/pandas-docs/version/0.17.0/generated/pandas.DataFrame.pipe.html">pipe</a></p>
+
+<pre><code class="language-python">import statsmodels.formula.api as sm
+
+bb = pd.read_csv('data/baseball.csv', index_col='id')
+
+(bb.query('h &gt; 0')
+   .assign(ln_h = lambda df: np.log(df.h))
+   .pipe((sm.poisson, 'data'), 'hr ~ ln_h + year + g + C(lg)')
+   .fit()
+   .summary()
+)
+</code></pre>
+
+</div>
+
+
+
+
+
+</div>
+<script type="text/javascript"
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+</html>
+

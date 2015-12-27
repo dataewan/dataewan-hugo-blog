@@ -1,0 +1,4 @@
+baseurl = "http://dataewan.github.io"
+languageCode = "en-gb"
+title = "dataewan"
+theme = "dataewan-theme"

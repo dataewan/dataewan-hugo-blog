@@ -1,0 +1,21 @@
+
+{{ partial "header.html" . }}
+{{ partial "sidebar.html" . }}
+
+{{ partial "contentheader.html" . }}
+<h1 id="title">{{ .Title }}</h1>
+<div>
+    <ul id="list">
+        {{ range .Data.Pages }}
+        <li>
+            <a href="{{ .Permalink }}">{{ .Title }}</a>
+            <p>
+            {{ .Summary }}
+            </p>
+        </li>
+        {{ end }}
+    </ul>
+</div>
+{{ partial "contentfooter.html" . }}
+
+{{ partial "footer.html" . }}
