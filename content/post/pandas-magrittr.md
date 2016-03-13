@@ -1,6 +1,7 @@
 +++
 date = "2015-12-06T12:02:06Z"
-title = "pandas magrittr style syntax"
+title = "Writing tidy pandas"
+tags = ['pandas']
 
 +++
 
@@ -9,6 +10,11 @@ title = "pandas magrittr style syntax"
 It gives you the `%>%` operator.
 Whatever is on the left hand side of this operator gets passed into the right hand side.
 This operator is known as a pipe - similar to [pipes in unix](http://www.december.com/unix/tutor/pipesfilters.html).
+
+I really missed this syntax when I was writing python and pandas.
+I've recently found that there's something pretty similar available in pandas,
+which made me very happy.
+<!--more-->
 
 Have a look at this bit of R code,
 written with the magrittr library.
@@ -34,9 +40,8 @@ When writing R, this makes your code easier to understand and makes you more pro
 
 ## Method chaining in pandas
 
-I really missed this syntax when I was writing python and pandas.
-I've recently found that there's something pretty similar available in pandas,
-which made me very happy.
+The similar operation in pandas is known as *method chaining*,
+and makes your code look pretty similar to that `magrittr` example from above.
 *This has been around since pandas v0.16.2, so I'm a little late to the party.*
 
 <blockquote class="twitter-tweet tw-align-center" lang="en"><p lang="en" dir="ltr">The new DataFrame.pipe in pandas is so heartwarming. Bravo team! <a href="http://t.co/SHMSASitPs">http://t.co/SHMSASitPs</a> <a href="https://twitter.com/hashtag/pydata?src=hash">#pydata</a></p>&mdash; Wes McKinney (@wesmckinn) <a href="https://twitter.com/wesmckinn/status/610550651114754048">June 15, 2015</a></blockquote>
@@ -44,12 +49,11 @@ which made me very happy.
 
 [This section](http://pandas.pydata.org/pandas-docs/stable/basics.html#tablewise-function-application)
 of the official documentation describes how it works.
-This style of code is known as *method chaining*,
-and is encouraged by pandas.
-
 The example there is quite short, so you can easily miss how important an idea this is.
 I've got an [ipython notebook](https://github.com/dataewan/country-borders-wikipedia/blob/master/Land%20borders%20from%20wikipedia.ipynb) that uses this idea of method chaining extensively.
-My code is a lot neater,
+
+I don't think that I've completely got the hang of this yet,
+but by following the tips below I feel my code is a lot neater,
 and makes me feel a lot happier.
 
 ## Put your long lines in brackets
@@ -68,7 +72,8 @@ and then just selecting the `country` and `number_neighbours` fields of those ro
 
 It isn't very easy to read this.
 It is hard to see where one section ends and the next one begins.
-Also, if you write something more complicated than this then you'll get very long lines in your code.
+Also, if you write something more complicated than this then you'll get very long lines in your code,
+which might not be the style of python you like to write.
 
 You might be tempted to use temporary dataframes to break your code into smaller chunks.
 So maybe do something like this:
@@ -128,10 +133,31 @@ but that also have some neighbours.
 lets you put new columns on the dataframe,
 or assign new values to the old ones.
 
+This example makes a new column in the dataframe `avgsegment` by dividing one column `land_border_length`
+in the dataframe by another `number_borders`.
+
+```python
+(
+    clean
+    .assign(avgsegment = clean.land_border_length / clean.number_borders)
+)
+```
+
 ### rename
 
 [rename](http://pandas.pydata.org/pandas-docs/version/0.17.1/generated/pandas.DataFrame.rename.html)
 changes the names of the columns in the dataframe.
+The knack here is to pass it a dictionary that contains the names of the columns you want to rename,
+and what the column names should be afterwards like this: `{beforeName : afterName}`.
+
+This example changes the name of the `country` column to `countryname`.
+
+```python
+(
+    clean
+    .rename(columns = {"country" : "countryname"})
+)
+```
 
 ### drop
 

@@ -2,25 +2,29 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on dataewan</title>
-    <link>http://localhost:1313/post/</link>
+    <link>http://dataewan.github.io/post/</link>
     <description>Recent content in Posts on dataewan</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language>
     <lastBuildDate>Sun, 06 Dec 2015 12:02:06 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/post/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://dataewan.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>pandas magrittr style syntax</title>
-      <link>http://localhost:1313/post/pandas-magrittr/</link>
+      <link>http://dataewan.github.io/post/pandas-magrittr/</link>
       <pubDate>Sun, 06 Dec 2015 12:02:06 +0000</pubDate>
       
-      <guid>http://localhost:1313/post/pandas-magrittr/</guid>
+      <guid>http://dataewan.github.io/post/pandas-magrittr/</guid>
       <description>
 
 &lt;p&gt;&lt;a href=&#34;https://github.com/smbache/magrittr&#34;&gt;magrittr&lt;/a&gt; introduces some very pleasant syntax to R.
 It gives you the &lt;code&gt;%&amp;gt;%&lt;/code&gt; operator.
 Whatever is on the left hand side of this operator gets passed into the right hand side.
 This operator is known as a pipe - similar to &lt;a href=&#34;http://www.december.com/unix/tutor/pipesfilters.html&#34;&gt;pipes in unix&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;I really missed this syntax when I was writing python and pandas.
+I&amp;rsquo;ve recently found that there&amp;rsquo;s something pretty similar available in pandas,
+which made me very happy.&lt;/p&gt;
 
 &lt;p&gt;Have a look at this bit of R code,
 written with the magrittr library.&lt;/p&gt;
@@ -45,9 +49,8 @@ When writing R, this makes your code easier to understand and makes you more pro
 
 &lt;h2 id=&#34;method-chaining-in-pandas:d2b40886fd042ce815011ab74a9d0a94&#34;&gt;Method chaining in pandas&lt;/h2&gt;
 
-&lt;p&gt;I really missed this syntax when I was writing python and pandas.
-I&amp;rsquo;ve recently found that there&amp;rsquo;s something pretty similar available in pandas,
-which made me very happy.
+&lt;p&gt;The similar operation in pandas is known as &lt;em&gt;method chaining&lt;/em&gt;,
+and makes your code look pretty similar to that &lt;code&gt;magrittr&lt;/code&gt; example from above.
 &lt;em&gt;This has been around since pandas v0.16.2, so I&amp;rsquo;m a little late to the party.&lt;/em&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;blockquote class=&#34;twitter-tweet tw-align-center&#34; lang=&#34;en&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;The new DataFrame.pipe in pandas is so heartwarming. Bravo team! &lt;a href=&#34;http://t.co/SHMSASitPs&#34;&gt;http://t.co/SHMSASitPs&lt;/a&gt; &lt;a href=&#34;https://twitter.com/hashtag/pydata?src=hash&#34;&gt;#pydata&lt;/a&gt;&lt;/p&gt;&amp;mdash; Wes McKinney (@wesmckinn) &lt;a href=&#34;https://twitter.com/wesmckinn/status/610550651114754048&#34;&gt;June 15, 2015&lt;/a&gt;&lt;/blockquote&gt;
@@ -55,12 +58,11 @@ which made me very happy.
 
 &lt;p&gt;&lt;a href=&#34;http://pandas.pydata.org/pandas-docs/stable/basics.html#tablewise-function-application&#34;&gt;This section&lt;/a&gt;
 of the official documentation describes how it works.
-This style of code is known as &lt;em&gt;method chaining&lt;/em&gt;,
-and is encouraged by pandas.&lt;/p&gt;
+The example there is quite short, so you can easily miss how important an idea this is.
+I&amp;rsquo;ve got an &lt;a href=&#34;https://github.com/dataewan/country-borders-wikipedia/blob/master/Land%20borders%20from%20wikipedia.ipynb&#34;&gt;ipython notebook&lt;/a&gt; that uses this idea of method chaining extensively.&lt;/p&gt;
 
-&lt;p&gt;The example there is quite short, so you can easily miss how important an idea this is.
-I&amp;rsquo;ve got an &lt;a href=&#34;https://github.com/dataewan/country-borders-wikipedia/blob/master/Land%20borders%20from%20wikipedia.ipynb&#34;&gt;ipython notebook&lt;/a&gt; that uses this idea of method chaining extensively.
-My code is a lot neater,
+&lt;p&gt;I don&amp;rsquo;t think that I&amp;rsquo;ve completely got the hang of this yet,
+but by following the tips below I feel my code is a lot neater,
 and makes me feel a lot happier.&lt;/p&gt;
 
 &lt;h2 id=&#34;put-your-long-lines-in-brackets:d2b40886fd042ce815011ab74a9d0a94&#34;&gt;Put your long lines in brackets&lt;/h2&gt;
@@ -78,7 +80,8 @@ and then just selecting the &lt;code&gt;country&lt;/code&gt; and &lt;code&gt;num
 
 &lt;p&gt;It isn&amp;rsquo;t very easy to read this.
 It is hard to see where one section ends and the next one begins.
-Also, if you write something more complicated than this then you&amp;rsquo;ll get very long lines in your code.&lt;/p&gt;
+Also, if you write something more complicated than this then you&amp;rsquo;ll get very long lines in your code,
+which might not be the style of python you like to write.&lt;/p&gt;
 
 &lt;p&gt;You might be tempted to use temporary dataframes to break your code into smaller chunks.
 So maybe do something like this:&lt;/p&gt;
@@ -135,10 +138,29 @@ but that also have some neighbours.&lt;/p&gt;
 lets you put new columns on the dataframe,
 or assign new values to the old ones.&lt;/p&gt;
 
+&lt;p&gt;This example makes a new column in the dataframe &lt;code&gt;avgsegment&lt;/code&gt; by dividing one column &lt;code&gt;land_border_length&lt;/code&gt;
+in the dataframe by another &lt;code&gt;number_borders&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;(
+    clean
+    .assign(avgsegment = clean.land_border_length / clean.number_borders)
+)
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;h3 id=&#34;rename:d2b40886fd042ce815011ab74a9d0a94&#34;&gt;rename&lt;/h3&gt;
 
 &lt;p&gt;&lt;a href=&#34;http://pandas.pydata.org/pandas-docs/version/0.17.1/generated/pandas.DataFrame.rename.html&#34;&gt;rename&lt;/a&gt;
-changes the names of the columns in the dataframe.&lt;/p&gt;
+changes the names of the columns in the dataframe.
+The knack here is to pass it a dictionary that contains the names of the columns you want to rename,
+and what the column names should be afterwards like this: &lt;code&gt;{beforeName : afterName}&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;This example changes the name of the &lt;code&gt;country&lt;/code&gt; column to &lt;code&gt;countryname&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;(
+    clean
+    .rename(columns = {&amp;quot;country&amp;quot; : &amp;quot;countryname&amp;quot;})
+)
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h3 id=&#34;drop:d2b40886fd042ce815011ab74a9d0a94&#34;&gt;drop&lt;/h3&gt;
 

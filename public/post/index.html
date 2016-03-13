@@ -53,11 +53,19 @@
         
             <div class="postsummary">
                 <h2>
-                    <a href="http://localhost:1313/post/pandas-magrittr/">pandas magrittr style syntax</a>
+                    <a href="http://dataewan.github.io/post/pandas-magrittr/">pandas magrittr style syntax</a>
                 </h2>
                 <p>
-                magrittr introduces some very pleasant syntax to R. It gives you the %&gt;% operator. Whatever is on the left hand side of this operator gets passed into the right hand side. This operator is known as a pipe - similar to pipes in unix. Have a look at this bit of R code, written with the magrittr library. the_data &lt;- read.csv('/path/to/data/file.csv') %&gt;% subset(variable_a &gt; x) %&gt;% transform(variable_c = variable_a/variable_b) %&gt;% head(100) It looks a lot like how you would describe these operations in English.
-                <a href="http://localhost:1313/post/pandas-magrittr/">[more]</a>
+                <p><a href="https://github.com/smbache/magrittr">magrittr</a> introduces some very pleasant syntax to R.
+It gives you the <code>%&gt;%</code> operator.
+Whatever is on the left hand side of this operator gets passed into the right hand side.
+This operator is known as a pipe - similar to <a href="http://www.december.com/unix/tutor/pipesfilters.html">pipes in unix</a>.</p>
+
+<p>I really missed this syntax when I was writing python and pandas.
+I&rsquo;ve recently found that there&rsquo;s something pretty similar available in pandas,
+which made me very happy.</p>
+
+                <a href="http://dataewan.github.io/post/pandas-magrittr/">[more]</a>
                 </p>
             </div>
         
