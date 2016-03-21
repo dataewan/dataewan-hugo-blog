@@ -109,3 +109,12 @@ figure h4{
     font-family: "Crimson Text", serif;
 }
 
+
+/*
+ *
+ */
+div.licence{
+    padding-top: 3em;
+    letter-spacing: 0.05em;
+    font-size: 50%;
+}
